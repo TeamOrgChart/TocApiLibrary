@@ -15,7 +15,7 @@ namespace Teamorgchart
     using System.Net;
     using System.Net.Http;
 
-    public partial class TeamOrgChartWebUIDirectoryApp : ServiceClient<TeamOrgChartWebUIDirectoryApp>, ITeamOrgChartWebUIDirectoryApp
+    public partial class TeamOrgChartApi : ServiceClient<TeamOrgChartApi>, ITeamOrgChartApi
     {
         /// <summary>
         /// The base URI of the service.
@@ -53,31 +53,31 @@ namespace Teamorgchart
         public virtual IRemappingsApi RemappingsApi { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the TeamOrgChartWebUIDirectoryApp class.
+        /// Initializes a new instance of the TeamOrgChartApi class.
         /// </summary>
         /// <param name='httpClient'>
         /// HttpClient to be used
         /// </param>
         /// <param name='disposeHttpClient'>
-        /// True: will dispose the provided httpClient on calling TeamOrgChartWebUIDirectoryApp.Dispose(). False: will not dispose provided httpClient</param>
-        public TeamOrgChartWebUIDirectoryApp(HttpClient httpClient, bool disposeHttpClient) : base(httpClient, disposeHttpClient)
+        /// True: will dispose the provided httpClient on calling TeamOrgChartApi.Dispose(). False: will not dispose provided httpClient</param>
+        public TeamOrgChartApi(HttpClient httpClient, bool disposeHttpClient) : base(httpClient, disposeHttpClient)
         {
             Initialize();
         }
 
         /// <summary>
-        /// Initializes a new instance of the TeamOrgChartWebUIDirectoryApp class.
+        /// Initializes a new instance of the TeamOrgChartApi class.
         /// </summary>
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public TeamOrgChartWebUIDirectoryApp(params DelegatingHandler[] handlers) : base(handlers)
+        public TeamOrgChartApi(params DelegatingHandler[] handlers) : base(handlers)
         {
             Initialize();
         }
 
         /// <summary>
-        /// Initializes a new instance of the TeamOrgChartWebUIDirectoryApp class.
+        /// Initializes a new instance of the TeamOrgChartApi class.
         /// </summary>
         /// <param name='rootHandler'>
         /// Optional. The http client handler used to handle http transport.
@@ -85,13 +85,13 @@ namespace Teamorgchart
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public TeamOrgChartWebUIDirectoryApp(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
+        public TeamOrgChartApi(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
         {
             Initialize();
         }
 
         /// <summary>
-        /// Initializes a new instance of the TeamOrgChartWebUIDirectoryApp class.
+        /// Initializes a new instance of the TeamOrgChartApi class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.
@@ -102,7 +102,7 @@ namespace Teamorgchart
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public TeamOrgChartWebUIDirectoryApp(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
+        public TeamOrgChartApi(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
         {
             if (baseUri == null)
             {
@@ -112,7 +112,7 @@ namespace Teamorgchart
         }
 
         /// <summary>
-        /// Initializes a new instance of the TeamOrgChartWebUIDirectoryApp class.
+        /// Initializes a new instance of the TeamOrgChartApi class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.
@@ -126,7 +126,7 @@ namespace Teamorgchart
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public TeamOrgChartWebUIDirectoryApp(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        public TeamOrgChartApi(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
             if (baseUri == null)
             {

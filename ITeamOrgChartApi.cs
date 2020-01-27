@@ -11,7 +11,7 @@ namespace Teamorgchart
 
     /// <summary>
     /// </summary>
-    public partial interface ITeamOrgChartWebUIDirectoryApp : System.IDisposable
+    public partial interface ITeamOrgChartApi : System.IDisposable
     {
         /// <summary>
         /// The base URI of the service.

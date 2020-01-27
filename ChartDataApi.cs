@@ -21,7 +21,7 @@ namespace Teamorgchart
     /// <summary>
     /// ChartDataApi operations.
     /// </summary>
-    public partial class ChartDataApi : IServiceOperations<TeamOrgChartWebUIDirectoryApp>, IChartDataApi
+    public partial class ChartDataApi : IServiceOperations<TeamOrgChartApi>, IChartDataApi
     {
         /// <summary>
         /// Initializes a new instance of the ChartDataApi class.
@@ -32,7 +32,7 @@ namespace Teamorgchart
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public ChartDataApi(TeamOrgChartWebUIDirectoryApp client)
+        public ChartDataApi(TeamOrgChartApi client)
         {
             if (client == null)
             {
@@ -42,9 +42,9 @@ namespace Teamorgchart
         }
 
         /// <summary>
-        /// Gets a reference to the TeamOrgChartWebUIDirectoryApp
+        /// Gets a reference to the TeamOrgChartApi
         /// </summary>
-        public TeamOrgChartWebUIDirectoryApp Client { get; private set; }
+        public TeamOrgChartApi Client { get; private set; }
 
         /// <param name='version'>
         /// </param>
@@ -417,7 +417,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -444,7 +444,7 @@ namespace Teamorgchart
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
-            if ((int)_statusCode == 200)
+            if ((int)_statusCode == 201)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try

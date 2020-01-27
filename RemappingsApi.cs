@@ -21,7 +21,7 @@ namespace Teamorgchart
     /// <summary>
     /// RemappingsApi operations.
     /// </summary>
-    public partial class RemappingsApi : IServiceOperations<TeamOrgChartWebUIDirectoryApp>, IRemappingsApi
+    public partial class RemappingsApi : IServiceOperations<TeamOrgChartApi>, IRemappingsApi
     {
         /// <summary>
         /// Initializes a new instance of the RemappingsApi class.
@@ -32,7 +32,7 @@ namespace Teamorgchart
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public RemappingsApi(TeamOrgChartWebUIDirectoryApp client)
+        public RemappingsApi(TeamOrgChartApi client)
         {
             if (client == null)
             {
@@ -42,9 +42,9 @@ namespace Teamorgchart
         }
 
         /// <summary>
-        /// Gets a reference to the TeamOrgChartWebUIDirectoryApp
+        /// Gets a reference to the TeamOrgChartApi
         /// </summary>
-        public TeamOrgChartWebUIDirectoryApp Client { get; private set; }
+        public TeamOrgChartApi Client { get; private set; }
 
         /// <param name='chartId'>
         /// </param>
