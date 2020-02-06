@@ -17,6 +17,13 @@ namespace Teamorgchart
     /// </summary>
     public static partial class ChartsApiExtensions
     {
+            /// <summary>
+            /// Retrieve a collection organization chart definitions owned by this tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// GET /api/v1/charts
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
@@ -27,6 +34,13 @@ namespace Teamorgchart
                 return operations.GetAsync(version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Retrieve a collection organization chart definitions owned by this tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// GET /api/v1/charts
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
@@ -43,10 +57,18 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Create a new organization chart definition within the tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// POST /api/v1/charts/
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='model'>
+            /// organization chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -55,10 +77,18 @@ namespace Teamorgchart
                 return operations.CreateChartAsync(model, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Create a new organization chart definition within the tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// POST /api/v1/charts/
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='model'>
+            /// organization chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -73,10 +103,18 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Retrieve an organization chart definition owned by this tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// GET /api/v1/charts/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -85,10 +123,18 @@ namespace Teamorgchart
                 return operations.Get1Async(chartId, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Retrieve an organization chart definition owned by this tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// GET /api/v1/charts/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -103,34 +149,47 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Delete an organization chart definition owned by this tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// DELETE /api/v1/charts/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
-            public static object Delete(this IChartsApi operations, string chartId, string version)
+            public static void Delete(this IChartsApi operations, string chartId, string version)
             {
-                return operations.DeleteAsync(chartId, version).GetAwaiter().GetResult();
+                operations.DeleteAsync(chartId, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Delete an organization chart definition owned by this tenant.
+            /// </summary>
+            /// <remarks>
+            /// &lt;br /&gt;
+            /// DELETE /api/v1/charts/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> DeleteAsync(this IChartsApi operations, string chartId, string version, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task DeleteAsync(this IChartsApi operations, string chartId, string version, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.DeleteWithHttpMessagesAsync(chartId, version, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
+                (await operations.DeleteWithHttpMessagesAsync(chartId, version, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
     }

@@ -17,10 +17,20 @@ namespace Teamorgchart
     /// </summary>
     public static partial class RemappingsApiExtensions
     {
+            /// <summary>
+            /// Returns a list of the temporary, vacant or department chart positions
+            /// defined for the chart
+            /// </summary>
+            /// <remarks>
+            /// Sample request:
+            ///
+            /// GET /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -29,10 +39,20 @@ namespace Teamorgchart
                 return operations.GetRemappingsAsync(chartId, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Returns a list of the temporary, vacant or department chart positions
+            /// defined for the chart
+            /// </summary>
+            /// <remarks>
+            /// Sample request:
+            ///
+            /// GET /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -47,12 +67,31 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Creates a new or updates an existing remapping in the chart.
+            /// </summary>
+            /// <remarks>
+            /// Sample request:
+            ///
+            /// POST /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// [{
+            /// "Id": 0,
+            /// "UniqueId": "string",
+            /// "FriendlyUniqueId": "string",
+            /// "ManagerId": "string",
+            /// "FriendlyManagerId": "string",
+            /// "MappedId": "string",
+            /// "FriendlyMappedId": "string"
+            /// }]
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='model'>
+            /// Remapping model
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -61,12 +100,31 @@ namespace Teamorgchart
                 return operations.AddRemappingAsync(chartId, model, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Creates a new or updates an existing remapping in the chart.
+            /// </summary>
+            /// <remarks>
+            /// Sample request:
+            ///
+            /// POST /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// [{
+            /// "Id": 0,
+            /// "UniqueId": "string",
+            /// "FriendlyUniqueId": "string",
+            /// "ManagerId": "string",
+            /// "FriendlyManagerId": "string",
+            /// "MappedId": "string",
+            /// "FriendlyMappedId": "string"
+            /// }]
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='model'>
+            /// Remapping model
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -81,38 +139,55 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Removes a remapping from the chart.
+            /// </summary>
+            /// <remarks>
+            /// Sample request:
+            ///
+            /// DELETE /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685/123456
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='remappingId'>
+            /// ID of the mapping
             /// </param>
             /// <param name='version'>
             /// </param>
-            public static object DeleteRemapping(this IRemappingsApi operations, string chartId, int remappingId, string version)
+            public static void DeleteRemapping(this IRemappingsApi operations, string chartId, int remappingId, string version)
             {
-                return operations.DeleteRemappingAsync(chartId, remappingId, version).GetAwaiter().GetResult();
+                operations.DeleteRemappingAsync(chartId, remappingId, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Removes a remapping from the chart.
+            /// </summary>
+            /// <remarks>
+            /// Sample request:
+            ///
+            /// DELETE /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685/123456
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// ID of the chart definition
             /// </param>
             /// <param name='remappingId'>
+            /// ID of the mapping
             /// </param>
             /// <param name='version'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> DeleteRemappingAsync(this IRemappingsApi operations, string chartId, int remappingId, string version, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task DeleteRemappingAsync(this IRemappingsApi operations, string chartId, int remappingId, string version, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.DeleteRemappingWithHttpMessagesAsync(chartId, remappingId, version, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
+                (await operations.DeleteRemappingWithHttpMessagesAsync(chartId, remappingId, version, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
     }

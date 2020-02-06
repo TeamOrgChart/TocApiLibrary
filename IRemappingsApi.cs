@@ -18,7 +18,17 @@ namespace Teamorgchart
     /// </summary>
     public partial interface IRemappingsApi
     {
+        /// <summary>
+        /// Returns a list of the temporary, vacant or department chart
+        /// positions defined for the chart
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        /// GET /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -38,9 +48,28 @@ namespace Teamorgchart
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<IList<Remapping>>> GetRemappingsWithHttpMessagesAsync(string chartId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Creates a new or updates an existing remapping in the chart.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        /// POST /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// [{
+        /// "Id": 0,
+        /// "UniqueId": "string",
+        /// "FriendlyUniqueId": "string",
+        /// "ManagerId": "string",
+        /// "FriendlyManagerId": "string",
+        /// "MappedId": "string",
+        /// "FriendlyMappedId": "string"
+        /// }]
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='model'>
+        /// Remapping model
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -60,9 +89,20 @@ namespace Teamorgchart
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<Remapping>> AddRemappingWithHttpMessagesAsync(string chartId, Remapping model, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Removes a remapping from the chart.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        /// DELETE
+        /// /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685/123456
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='remappingId'>
+        /// ID of the mapping
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -75,12 +115,9 @@ namespace Teamorgchart
         /// <exception cref="Microsoft.Rest.HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
-        /// <exception cref="Microsoft.Rest.SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse<object>> DeleteRemappingWithHttpMessagesAsync(string chartId, int remappingId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteRemappingWithHttpMessagesAsync(string chartId, int remappingId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

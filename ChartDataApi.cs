@@ -46,138 +46,19 @@ namespace Teamorgchart
         /// </summary>
         public TeamOrgChartApi Client { get; private set; }
 
-        /// <param name='version'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// Headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        /// <exception cref="HttpOperationException">
-        /// Thrown when the operation returned an invalid status code
-        /// </exception>
-        /// <exception cref="SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
-        /// <exception cref="ValidationException">
-        /// Thrown when a required parameter is null
-        /// </exception>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when a required parameter is null
-        /// </exception>
-        /// <return>
-        /// A response object containing the response body and response headers.
-        /// </return>
-        public async Task<HttpOperationResponse<string>> GetApiInfoWithHttpMessagesAsync(string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (version == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "version");
-            }
-            // Tracing
-            bool _shouldTrace = ServiceClientTracing.IsEnabled;
-            string _invocationId = null;
-            if (_shouldTrace)
-            {
-                _invocationId = ServiceClientTracing.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("version", version);
-                tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "GetApiInfo", tracingParameters);
-            }
-            // Construct URL
-            var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v{version}/data/info").ToString();
-            _url = _url.Replace("{version}", System.Uri.EscapeDataString(version));
-            // Create HTTP transport objects
-            var _httpRequest = new HttpRequestMessage();
-            HttpResponseMessage _httpResponse = null;
-            _httpRequest.Method = new HttpMethod("GET");
-            _httpRequest.RequestUri = new System.Uri(_url);
-            // Set Headers
-
-
-            if (customHeaders != null)
-            {
-                foreach(var _header in customHeaders)
-                {
-                    if (_httpRequest.Headers.Contains(_header.Key))
-                    {
-                        _httpRequest.Headers.Remove(_header.Key);
-                    }
-                    _httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
-                }
-            }
-
-            // Serialize Request
-            string _requestContent = null;
-            // Send Request
-            if (_shouldTrace)
-            {
-                ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
-            }
-            cancellationToken.ThrowIfCancellationRequested();
-            _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
-            if (_shouldTrace)
-            {
-                ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
-            }
-            HttpStatusCode _statusCode = _httpResponse.StatusCode;
-            cancellationToken.ThrowIfCancellationRequested();
-            string _responseContent = null;
-            if ((int)_statusCode != 200)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
-                if (_httpResponse.Content != null) {
-                    _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                }
-                else {
-                    _responseContent = string.Empty;
-                }
-                ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
-                ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
-                if (_shouldTrace)
-                {
-                    ServiceClientTracing.Error(_invocationId, ex);
-                }
-                _httpRequest.Dispose();
-                if (_httpResponse != null)
-                {
-                    _httpResponse.Dispose();
-                }
-                throw ex;
-            }
-            // Create Result
-            var _result = new HttpOperationResponse<string>();
-            _result.Request = _httpRequest;
-            _result.Response = _httpResponse;
-            // Deserialize Response
-            if ((int)_statusCode == 200)
-            {
-                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<string>(_responseContent, Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    _httpRequest.Dispose();
-                    if (_httpResponse != null)
-                    {
-                        _httpResponse.Dispose();
-                    }
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
-            }
-            if (_shouldTrace)
-            {
-                ServiceClientTracing.Exit(_invocationId, _result);
-            }
-            return _result;
-        }
-
+        /// <summary>
+        /// Fetches all the items in the organization chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+        /// uploading a spreadsheet are supported in this version of the API.&lt;br
+        /// /&gt;
+        /// Sample request:
+        ///
+        /// GET /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -265,7 +146,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 200 && (int)_statusCode != 400)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -316,9 +197,31 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Creates a single chart item in an organization chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+        /// uploading a spreadsheet are supported in this version of the API.&lt;br
+        /// /&gt;
+        /// The data must contain a &lt;b&gt;Unqiue Id&lt;/b&gt; and &lt;b&gt;Manager
+        /// Id&lt;/b&gt; other can be added as required for example
+        /// &lt;b&gt;DisplayName&lt;/b&gt; or &lt;b&gt;Email&lt;/b&gt;
+        /// Sample request:
+        ///
+        /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/
+        /// [{
+        /// "UniqueId": "2",
+        /// "ManagerId": "1",
+        /// "DisplayName": "Mike Smith",
+        /// "Title": "CTO"
+        /// }]
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of the chart in which the item will be created
         /// </param>
         /// <param name='model'>
+        /// JSON model of the item to be created.
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -468,9 +371,22 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Delete a chart item from an organization chart
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+        /// uploading a spreadsheet are supported in this version of the API.&lt;br
+        /// /&gt;
+        /// Sample request:
+        ///
+        /// DELETE /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart that contains the item
         /// </param>
         /// <param name='uniqueId'>
+        /// Id of the item to remove from the chart
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -483,9 +399,6 @@ namespace Teamorgchart
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
-        /// <exception cref="SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
         /// <exception cref="ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
@@ -495,7 +408,7 @@ namespace Teamorgchart
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> DeleteChartItemWithHttpMessagesAsync(string chartId, string uniqueId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> DeleteChartItemWithHttpMessagesAsync(string chartId, string uniqueId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (chartId == null)
             {
@@ -572,7 +485,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 200 && (int)_statusCode != 400 && (int)_statusCode != 404)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -595,27 +508,9 @@ namespace Teamorgchart
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<object>();
+            var _result = new HttpOperationResponse();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-            // Deserialize Response
-            if ((int)_statusCode == 200)
-            {
-                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<object>(_responseContent, Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    _httpRequest.Dispose();
-                    if (_httpResponse != null)
-                    {
-                        _httpResponse.Dispose();
-                    }
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
-            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -623,9 +518,34 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Uploads a list of chart items and creates them within the chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+        /// uploading a spreadsheet are supported in this version of the API.&lt;br
+        /// /&gt;
+        /// Sample request:
+        ///
+        /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/bulk
+        /// [{
+        /// "UniqueId": "2",
+        /// "ManagerId": "1",
+        /// "DisplayName": "Mike Smith",
+        /// "Title": "CTO"
+        /// },
+        /// {
+        /// "UniqueId": "3",
+        /// "ManagerId": "1",
+        /// "DisplayName": "Jane Doe",
+        /// "Title": "CFO"
+        /// }]
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of the chart in the item will be created
         /// </param>
         /// <param name='items'>
+        /// List of item objects
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -724,7 +644,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 201)
+            if ((int)_statusCode != 201 && (int)_statusCode != 400 && (int)_statusCode != 404)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -775,9 +695,22 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Fetches a single chart item from the organization chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+        /// uploading a spreadsheet are supported in this version of the API.&lt;br
+        /// /&gt;
+        /// Sample request:
+        ///
+        /// GET /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart which the item belongs to
         /// </param>
         /// <param name='uniqueId'>
+        /// Id of the item to return
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -879,7 +812,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 200 && (int)_statusCode != 400)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -930,13 +863,27 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Fetches chart data in a hierarchical view.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+        /// uploading a spreadsheet are supported in this version of the API.&lt;br
+        /// /&gt;
+        /// Sample request:
+        ///
+        /// GET /api/v1/data/chartview/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart
         /// </param>
         /// <param name='version'>
         /// </param>
         /// <param name='startValue'>
+        /// The unique Id to begin fetching from
         /// </param>
         /// <param name='depth'>
+        /// The number of levels of the organization chart to process
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.

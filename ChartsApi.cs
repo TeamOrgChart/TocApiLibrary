@@ -46,6 +46,13 @@ namespace Teamorgchart
         /// </summary>
         public TeamOrgChartApi Client { get; private set; }
 
+        /// <summary>
+        /// Retrieve a collection organization chart definitions owned by this tenant.
+        /// </summary>
+        /// <remarks>
+        /// &lt;br /&gt;
+        /// GET /api/v1/charts
+        /// </remarks>
         /// <param name='version'>
         /// </param>
         /// <param name='customHeaders'>
@@ -177,7 +184,15 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Create a new organization chart definition within the tenant.
+        /// </summary>
+        /// <remarks>
+        /// &lt;br /&gt;
+        /// POST /api/v1/charts/
+        /// </remarks>
         /// <param name='model'>
+        /// organization chart definition
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -321,7 +336,15 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Retrieve an organization chart definition owned by this tenant.
+        /// </summary>
+        /// <remarks>
+        /// &lt;br /&gt;
+        /// GET /api/v1/charts/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -409,7 +432,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 200 && (int)_statusCode != 400 && (int)_statusCode != 404)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -460,7 +483,15 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Delete an organization chart definition owned by this tenant.
+        /// </summary>
+        /// <remarks>
+        /// &lt;br /&gt;
+        /// DELETE /api/v1/charts/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -473,9 +504,6 @@ namespace Teamorgchart
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
-        /// <exception cref="SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
         /// <exception cref="ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
@@ -485,7 +513,7 @@ namespace Teamorgchart
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> DeleteWithHttpMessagesAsync(string chartId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string chartId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (chartId == null)
             {
@@ -548,7 +576,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 200 && (int)_statusCode != 400)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -571,27 +599,9 @@ namespace Teamorgchart
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<object>();
+            var _result = new HttpOperationResponse();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-            // Deserialize Response
-            if ((int)_statusCode == 200)
-            {
-                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<object>(_responseContent, Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    _httpRequest.Dispose();
-                    if (_httpResponse != null)
-                    {
-                        _httpResponse.Dispose();
-                    }
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
-            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);

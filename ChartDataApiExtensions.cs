@@ -17,36 +17,22 @@ namespace Teamorgchart
     /// </summary>
     public static partial class ChartDataApiExtensions
     {
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='version'>
-            /// </param>
-            public static string GetApiInfo(this IChartDataApi operations, string version)
-            {
-                return operations.GetApiInfoAsync(version).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='version'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<string> GetApiInfoAsync(this IChartDataApi operations, string version, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetApiInfoWithHttpMessagesAsync(version, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
+            /// <summary>
+            /// Fetches all the items in the organization chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// GET /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -55,10 +41,22 @@ namespace Teamorgchart
                 return operations.GetChartItemsAsync(chartId, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Fetches all the items in the organization chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// GET /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -73,12 +71,34 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Creates a single chart item in an organization chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// The data must contain a &lt;b&gt;Unqiue Id&lt;/b&gt; and &lt;b&gt;Manager
+            /// Id&lt;/b&gt; other can be added as required for example
+            /// &lt;b&gt;DisplayName&lt;/b&gt; or &lt;b&gt;Email&lt;/b&gt;
+            /// Sample request:
+            ///
+            /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/
+            /// [{
+            /// "UniqueId": "2",
+            /// "ManagerId": "1",
+            /// "DisplayName": "Mike Smith",
+            /// "Title": "CTO"
+            /// }]
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of the chart in which the item will be created
             /// </param>
             /// <param name='model'>
+            /// JSON model of the item to be created.
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -87,12 +107,34 @@ namespace Teamorgchart
                 return operations.CreateChartItemAsync(chartId, model, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Creates a single chart item in an organization chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// The data must contain a &lt;b&gt;Unqiue Id&lt;/b&gt; and &lt;b&gt;Manager
+            /// Id&lt;/b&gt; other can be added as required for example
+            /// &lt;b&gt;DisplayName&lt;/b&gt; or &lt;b&gt;Email&lt;/b&gt;
+            /// Sample request:
+            ///
+            /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/
+            /// [{
+            /// "UniqueId": "2",
+            /// "ManagerId": "1",
+            /// "DisplayName": "Mike Smith",
+            /// "Title": "CTO"
+            /// }]
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of the chart in which the item will be created
             /// </param>
             /// <param name='model'>
+            /// JSON model of the item to be created.
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -107,46 +149,94 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Delete a chart item from an organization chart
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// DELETE /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart that contains the item
             /// </param>
             /// <param name='uniqueId'>
+            /// Id of the item to remove from the chart
             /// </param>
             /// <param name='version'>
             /// </param>
-            public static object DeleteChartItem(this IChartDataApi operations, string chartId, string uniqueId, string version)
+            public static void DeleteChartItem(this IChartDataApi operations, string chartId, string uniqueId, string version)
             {
-                return operations.DeleteChartItemAsync(chartId, uniqueId, version).GetAwaiter().GetResult();
+                operations.DeleteChartItemAsync(chartId, uniqueId, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Delete a chart item from an organization chart
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// DELETE /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart that contains the item
             /// </param>
             /// <param name='uniqueId'>
+            /// Id of the item to remove from the chart
             /// </param>
             /// <param name='version'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<object> DeleteChartItemAsync(this IChartDataApi operations, string chartId, string uniqueId, string version, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task DeleteChartItemAsync(this IChartDataApi operations, string chartId, string uniqueId, string version, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.DeleteChartItemWithHttpMessagesAsync(chartId, uniqueId, version, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
+                (await operations.DeleteChartItemWithHttpMessagesAsync(chartId, uniqueId, version, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
+            /// <summary>
+            /// Uploads a list of chart items and creates them within the chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/bulk
+            /// [{
+            /// "UniqueId": "2",
+            /// "ManagerId": "1",
+            /// "DisplayName": "Mike Smith",
+            /// "Title": "CTO"
+            /// },
+            /// {
+            /// "UniqueId": "3",
+            /// "ManagerId": "1",
+            /// "DisplayName": "Jane Doe",
+            /// "Title": "CFO"
+            /// }]
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of the chart in the item will be created
             /// </param>
             /// <param name='items'>
+            /// List of item objects
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -155,12 +245,37 @@ namespace Teamorgchart
                 return operations.CreateChartItemsAsync(chartId, items, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Uploads a list of chart items and creates them within the chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/bulk
+            /// [{
+            /// "UniqueId": "2",
+            /// "ManagerId": "1",
+            /// "DisplayName": "Mike Smith",
+            /// "Title": "CTO"
+            /// },
+            /// {
+            /// "UniqueId": "3",
+            /// "ManagerId": "1",
+            /// "DisplayName": "Jane Doe",
+            /// "Title": "CFO"
+            /// }]
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of the chart in the item will be created
             /// </param>
             /// <param name='items'>
+            /// List of item objects
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -175,12 +290,25 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Fetches a single chart item from the organization chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// GET /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart which the item belongs to
             /// </param>
             /// <param name='uniqueId'>
+            /// Id of the item to return
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -189,12 +317,25 @@ namespace Teamorgchart
                 return operations.GetChartItemAsync(chartId, uniqueId, version).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Fetches a single chart item from the organization chart.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// GET /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart which the item belongs to
             /// </param>
             /// <param name='uniqueId'>
+            /// Id of the item to return
             /// </param>
             /// <param name='version'>
             /// </param>
@@ -209,32 +350,60 @@ namespace Teamorgchart
                 }
             }
 
+            /// <summary>
+            /// Fetches chart data in a hierarchical view.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// GET /api/v1/data/chartview/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart
             /// </param>
             /// <param name='version'>
             /// </param>
             /// <param name='startValue'>
+            /// The unique Id to begin fetching from
             /// </param>
             /// <param name='depth'>
+            /// The number of levels of the organization chart to process
             /// </param>
             public static ChartDataView GetChartView(this IChartDataApi operations, string chartId, string version, string startValue = default(string), int? depth = default(int?))
             {
                 return operations.GetChartViewAsync(chartId, version, startValue, depth).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Fetches chart data in a hierarchical view.
+            /// </summary>
+            /// <remarks>
+            /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or by
+            /// uploading a spreadsheet are supported in this version of the API.&lt;br
+            /// /&gt;
+            /// Sample request:
+            ///
+            /// GET /api/v1/data/chartview/53bec490-1cdc-42f5-8983-e6efe66dc685
+            /// </remarks>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='chartId'>
+            /// Id of chart
             /// </param>
             /// <param name='version'>
             /// </param>
             /// <param name='startValue'>
+            /// The unique Id to begin fetching from
             /// </param>
             /// <param name='depth'>
+            /// The number of levels of the organization chart to process
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.

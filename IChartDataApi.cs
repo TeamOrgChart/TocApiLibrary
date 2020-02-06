@@ -18,25 +18,19 @@ namespace Teamorgchart
     /// </summary>
     public partial interface IChartDataApi
     {
-        /// <param name='version'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        /// <exception cref="Microsoft.Rest.HttpOperationException">
-        /// Thrown when the operation returned an invalid status code
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.ValidationException">
-        /// Thrown when a required parameter is null
-        /// </exception>
-        Task<HttpOperationResponse<string>> GetApiInfoWithHttpMessagesAsync(string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Fetches all the items in the organization chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or
+        /// by uploading a spreadsheet are supported in this version of the
+        /// API.&lt;br /&gt;
+        /// Sample request:
+        ///
+        /// GET /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -56,9 +50,31 @@ namespace Teamorgchart
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<IList<JsonChartItemViewModel>>> GetChartItemsWithHttpMessagesAsync(string chartId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Creates a single chart item in an organization chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or
+        /// by uploading a spreadsheet are supported in this version of the
+        /// API.&lt;br /&gt;
+        /// The data must contain a &lt;b&gt;Unqiue Id&lt;/b&gt; and
+        /// &lt;b&gt;Manager Id&lt;/b&gt; other can be added as required for
+        /// example &lt;b&gt;DisplayName&lt;/b&gt; or &lt;b&gt;Email&lt;/b&gt;
+        /// Sample request:
+        ///
+        /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/
+        /// [{
+        /// "UniqueId": "2",
+        /// "ManagerId": "1",
+        /// "DisplayName": "Mike Smith",
+        /// "Title": "CTO"
+        /// }]
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of the chart in which the item will be created
         /// </param>
         /// <param name='model'>
+        /// JSON model of the item to be created.
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -78,9 +94,23 @@ namespace Teamorgchart
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<JsonChartItemViewModel>> CreateChartItemWithHttpMessagesAsync(string chartId, object model, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Delete a chart item from an organization chart
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or
+        /// by uploading a spreadsheet are supported in this version of the
+        /// API.&lt;br /&gt;
+        /// Sample request:
+        ///
+        /// DELETE
+        /// /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart that contains the item
         /// </param>
         /// <param name='uniqueId'>
+        /// Id of the item to remove from the chart
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -93,16 +123,38 @@ namespace Teamorgchart
         /// <exception cref="Microsoft.Rest.HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
-        /// <exception cref="Microsoft.Rest.SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<HttpOperationResponse<object>> DeleteChartItemWithHttpMessagesAsync(string chartId, string uniqueId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteChartItemWithHttpMessagesAsync(string chartId, string uniqueId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Uploads a list of chart items and creates them within the chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or
+        /// by uploading a spreadsheet are supported in this version of the
+        /// API.&lt;br /&gt;
+        /// Sample request:
+        ///
+        /// POST /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685/bulk
+        /// [{
+        /// "UniqueId": "2",
+        /// "ManagerId": "1",
+        /// "DisplayName": "Mike Smith",
+        /// "Title": "CTO"
+        /// },
+        /// {
+        /// "UniqueId": "3",
+        /// "ManagerId": "1",
+        /// "DisplayName": "Jane Doe",
+        /// "Title": "CFO"
+        /// }]
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of the chart in the item will be created
         /// </param>
         /// <param name='items'>
+        /// List of item objects
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -122,9 +174,23 @@ namespace Teamorgchart
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<IList<JsonChartItemViewModel>>> CreateChartItemsWithHttpMessagesAsync(string chartId, IList<object> items, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Fetches a single chart item from the organization chart.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or
+        /// by uploading a spreadsheet are supported in this version of the
+        /// API.&lt;br /&gt;
+        /// Sample request:
+        ///
+        /// GET
+        /// /api/v1/data/53bec490-1cdc-42f5-8983-e6efe66dc685?uniqueId=111-222
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart which the item belongs to
         /// </param>
         /// <param name='uniqueId'>
+        /// Id of the item to return
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -144,13 +210,27 @@ namespace Teamorgchart
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<JsonChartItemViewModel>> GetChartItemWithHttpMessagesAsync(string chartId, string uniqueId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Fetches chart data in a hierarchical view.
+        /// </summary>
+        /// <remarks>
+        /// &lt;b&gt;Please note&lt;/b&gt; Only charts created via the API or
+        /// by uploading a spreadsheet are supported in this version of the
+        /// API.&lt;br /&gt;
+        /// Sample request:
+        ///
+        /// GET /api/v1/data/chartview/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// Id of chart
         /// </param>
         /// <param name='version'>
         /// </param>
         /// <param name='startValue'>
+        /// The unique Id to begin fetching from
         /// </param>
         /// <param name='depth'>
+        /// The number of levels of the organization chart to process
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.

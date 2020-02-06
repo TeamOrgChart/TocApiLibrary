@@ -46,7 +46,17 @@ namespace Teamorgchart
         /// </summary>
         public TeamOrgChartApi Client { get; private set; }
 
+        /// <summary>
+        /// Returns a list of the temporary, vacant or department chart positions
+        /// defined for the chart
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        /// GET /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -134,7 +144,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 200 && (int)_statusCode != 400 && (int)_statusCode != 404)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -185,9 +195,28 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Creates a new or updates an existing remapping in the chart.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        /// POST /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685
+        /// [{
+        /// "Id": 0,
+        /// "UniqueId": "string",
+        /// "FriendlyUniqueId": "string",
+        /// "ManagerId": "string",
+        /// "FriendlyManagerId": "string",
+        /// "MappedId": "string",
+        /// "FriendlyMappedId": "string"
+        /// }]
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='model'>
+        /// Remapping model
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -286,7 +315,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201 && (int)_statusCode != 400 && (int)_statusCode != 404)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -313,7 +342,7 @@ namespace Teamorgchart
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
-            if ((int)_statusCode == 200)
+            if ((int)_statusCode == 201)
             {
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
@@ -337,9 +366,19 @@ namespace Teamorgchart
             return _result;
         }
 
+        /// <summary>
+        /// Removes a remapping from the chart.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        /// DELETE /api/v1/remappings/53bec490-1cdc-42f5-8983-e6efe66dc685/123456
+        /// </remarks>
         /// <param name='chartId'>
+        /// ID of the chart definition
         /// </param>
         /// <param name='remappingId'>
+        /// ID of the mapping
         /// </param>
         /// <param name='version'>
         /// </param>
@@ -352,9 +391,6 @@ namespace Teamorgchart
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
-        /// <exception cref="SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
         /// <exception cref="ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
@@ -364,7 +400,7 @@ namespace Teamorgchart
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<object>> DeleteRemappingWithHttpMessagesAsync(string chartId, int remappingId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> DeleteRemappingWithHttpMessagesAsync(string chartId, int remappingId, string version, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (chartId == null)
             {
@@ -429,7 +465,7 @@ namespace Teamorgchart
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 200 && (int)_statusCode != 400 && (int)_statusCode != 404)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -452,27 +488,9 @@ namespace Teamorgchart
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<object>();
+            var _result = new HttpOperationResponse();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
-            // Deserialize Response
-            if ((int)_statusCode == 200)
-            {
-                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    _result.Body = Microsoft.Rest.Serialization.SafeJsonConvert.DeserializeObject<object>(_responseContent, Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    _httpRequest.Dispose();
-                    if (_httpResponse != null)
-                    {
-                        _httpResponse.Dispose();
-                    }
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
-            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
